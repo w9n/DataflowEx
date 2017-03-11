@@ -214,20 +214,6 @@ namespace Gridsum.DataflowEx
             return FromBlock(block, options);
         }
 
-        /// <summary>
-        /// Wraps an existing dataflow with auto complete feature
-        /// </summary>
-        /// <typeparam name="TIn">The input type of the Dataflow</typeparam>
-        /// <typeparam name="TOut">The output type of the Dataflow</typeparam>
-        /// <param name="dataflow">The inner dataflow to wrap</param>
-        /// <param name="timeout">The last-survival-timeout value for auto complete to trigger</param>
-        /// <returns></returns>
-        public static Dataflow<TIn, TOut> AutoComplete<TIn, TOut>(this Dataflow<TIn, TOut> dataflow, TimeSpan timeout)
-            where TIn : ITracableItem
-            where TOut : ITracableItem 
-        {
-            return new AutoCompleteWrapper<TIn, TOut>(dataflow, timeout, dataflow.DataflowOptions);
-        }
                 
         /// <summary>
         /// Links a dataflow to multiple targets. Uses DataBroadcaster internally.

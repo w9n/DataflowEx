@@ -6,6 +6,7 @@ using System.Linq;
 namespace Gridsum.DataflowEx
 {
     using System.Collections.Immutable;
+    using System.Reflection;
     using System.Text;
 
     /// <summary>
@@ -54,7 +55,7 @@ namespace Gridsum.DataflowEx
                 else
                 {
                     int count = 0;
-                    foreach (var subType in this.m_typeCounter.Keys.Where(k => k.IsSubclassOf(objectType) || k.GetInterfaces().Contains(objectType)))
+                    foreach (var subType in this.m_typeCounter.Keys.Where(k => k.GetTypeInfo().IsSubclassOf(objectType) || k.GetTypeInfo().GenericTypeArguments.Contains(objectType)))
                     {
                         count += this.m_typeCounter[subType].Count;
                     }
@@ -114,7 +115,7 @@ namespace Gridsum.DataflowEx
                 int count = 0;
                 foreach (KeyValuePair<Type, IntHolder> keyValuePair in this.m_typeCounter)
                 {
-                    if (typeof(Exception).IsAssignableFrom(keyValuePair.Key))
+                    if (typeof(Exception).GetTypeInfo().IsAssignableFrom(keyValuePair.Key))
                     {
                         count += keyValuePair.Value.Count;
                     }
@@ -237,7 +238,7 @@ namespace Gridsum.DataflowEx
             sb.AppendFormat("[{0}] Entities:", recorderName);
             foreach (KeyValuePair<Type, int> keyValuePair in this.SnapshotTypeCounter())
             {
-                if (!typeof(Exception).IsAssignableFrom(keyValuePair.Key))
+                if (!typeof(Exception).GetTypeInfo().IsAssignableFrom(keyValuePair.Key))
                 {
                     sb.Append(' ');
                     sb.Append(keyValuePair.Key.GetFriendlyName());
