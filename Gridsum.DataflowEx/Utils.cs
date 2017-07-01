@@ -4,7 +4,6 @@ using System.Linq;
 namespace Gridsum.DataflowEx
 {
     using System.Collections.Immutable;
-    using System.Data;
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
     using System.Text;
